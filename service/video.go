@@ -27,6 +27,7 @@ func Feed(latestTime time.Time, token string) (*VideoInfoFlow, error) {
 	if err != nil {
 		return nil, fmt.Errorf("获取视频列表失败:%v", err.Error())
 	}
+	print("嘻嘻")
 	videoInfoFlow := VideoInfoFlow{}
 	if len(videos) == 0 {
 		return &videoInfoFlow, nil
