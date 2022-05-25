@@ -27,7 +27,6 @@ func Feed(latestTime time.Time, token string) (*VideoInfoFlow, error) {
 	if err != nil {
 		return nil, fmt.Errorf("获取视频列表失败:%v", err.Error())
 	}
-	print("嘻嘻")
 	videoInfoFlow := VideoInfoFlow{}
 	if len(videos) == 0 {
 		return &videoInfoFlow, nil
@@ -50,4 +49,14 @@ func Feed(latestTime time.Time, token string) (*VideoInfoFlow, error) {
 	}
 	videoInfoFlow.VideoList = videoInfoList
 	return &videoInfoFlow, nil
+}
+
+func AddVideo(userId int64, title string, playUrl string) {
+	_, _ = repository.AddVideo(&repository.Video{
+		UserId:     userId,
+		PlayUrl:    playUrl,
+		CoverUrl:   "",
+		Title:      title,
+		CreateTime: time.Now(),
+	})
 }

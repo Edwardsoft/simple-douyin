@@ -10,7 +10,7 @@ import (
 
 func initRouter(r *gin.Engine) {
 	// public directory is used to serve static resources
-	r.Static("/static", "./public")
+	r.Static("/videos", "./videos/")
 
 	apiRouter := r.Group("/douyin")
 
@@ -39,7 +39,10 @@ func initRouter(r *gin.Engine) {
 		data := controller.Login(username, password)
 		c.JSON(http.StatusOK, data)
 	})
-	apiRouter.POST("/publish/action/", controller.Publish)
+	apiRouter.POST("/publish/action/", func(c *gin.Context) {
+		response := controller.Publish(c)
+		c.JSON(http.StatusOK, response)
+	})
 	apiRouter.GET("/publish/list/", controller.PublishList)
 
 	// extra apis - I
@@ -52,6 +55,8 @@ func initRouter(r *gin.Engine) {
 	apiRouter.POST("/relation/action/", controller.RelationAction)
 	apiRouter.GET("/relation/follow/list/", controller.FollowList)
 	apiRouter.GET("/relation/follower/list/", controller.FollowerList)
+
+	// apiRouter.Static("/public/", "public/")
 }
 
 func main() {

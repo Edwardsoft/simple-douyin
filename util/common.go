@@ -2,7 +2,6 @@ package util
 
 import (
 	"fmt"
-
 	"github.com/golang-jwt/jwt"
 )
 
@@ -40,3 +39,34 @@ func ParseToken(tokenString string) (int64, error) {
 
 	return int64(claims["userId"].(float64)), nil
 }
+
+/**
+// GetVideoCover 生成视频缩略图并保存（作为封面）
+func GetVideoCover(videoPath, coverPath string, frameNum int) (coverName string) {
+	buf := bytes.NewBuffer(nil)
+	err := ffmpeg.Input(videoPath).
+		Filter("select", ffmpeg.Args{fmt.Sprintf("gte(n,%d)", frameNum)}).
+		Output("pipe:", ffmpeg.KwArgs{"vframes": 1, "format": "image2", "vcodec": "mjpeg"}).
+		WithOutput(buf, os.Stdout).
+		Run()
+	if err != nil {
+		log.Fatal("生成缩略图失败：", err)
+	}
+
+	img, err := imaging.Decode(buf)
+	if err != nil {
+		log.Fatal("生成缩略图失败：", err)
+	}
+
+	err = imaging.Save(img, coverPath+".jpeg")
+	if err != nil {
+		log.Fatal("生成缩略图失败：", err)
+	}
+
+	// 成功则返回生成的缩略图名
+	names := strings.Split(coverPath, "\")
+	coverName = names[len(names)-1] + ".jpeg"
+	return
+}
+
+*/
